@@ -1,0 +1,85 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[pdftex]{graphicx}
+\usepackage[a4paper, total={6in, 8in}]{geometry}
+
+\begin{document}
+\begin{center}
+\includegraphics{/home/forge/default/storage/app/templates/logo.png}
+
+\vspace{3cm}
+{\huge Contratto per la fornitura di servizi} 
+\end{center}
+
+\begin{center}
+\newpage
+Alltre S.r.l.
+01785430990
+Piazza De Marini, 1/24 C
+Genova
+GENOVA
+GE
+Italia
+16124
+\end{center}
+
+
+\begin{center}
+% SERVICES
+ \includegraphics[width=1.0\textwidth]{/home/forge/default/storage/app/services/6}
+ \includegraphics[width=1.0\textwidth]{/home/forge/default/storage/app/services/4}
+ \includegraphics[width=1.0\textwidth]{/home/forge/default/storage/app/services/5}
+%\includegraphics{1.pdf}
+\end{center}
+
+\newpage
+
+{\huge Riepilogo servizi}
+
+\vspace{0.5cm}
+\begin{itemize}
+ % SUMMARY
+\item Verde 800 - Setup servizio - 50.00 euro
+\item Verde 800 voip - Canone mensile - 150.00 euro
+\item Unlimited SOLO D - Una tantum attivazione del servizio SOLO D HDSL 2/2 - 250.00 euro
+\item Unlimited SOLO D - Una tantum attivazione del servizio SOLO D HDSL 2/2 - 250.00 euro
+\item Verde 800 - Canone mensile - 150.00 euro
+\end{itemize}
+\vspace{0.5cm}
+\newpage
+{\huge Termini e condizioni}
+
+\vspace{0.5cm}
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc neque massa, faucibus quis faucibus et, sagittis sed arcu. In hac habitasse platea dictumst. Sed et gravida nisi, in aliquam ligula. Curabitur eu libero tincidunt, pretium est vel, condimentum lectus. Donec dapibus neque augue, elementum finibus elit lobortis ac. Integer eu rutrum sem. Fusce malesuada, mauris a vestibulum posuere, turpis orci consectetur tellus, ut ornare libero felis sed felis. Aliquam erat volutpat. Maecenas elit lorem, ultrices non iaculis at, aliquet vestibulum justo. Quisque eget ipsum vestibulum, vestibulum odio sit amet, sagittis diam.
+
+
+Aliquam vitae dolor tristique, bibendum elit vitae, porttitor mauris. In hac habitasse platea dictumst. Fusce fermentum quis metus dapibus scelerisque. Nulla facilisi. Mauris feugiat mi eu risus pharetra, ut tincidunt nulla tempor. Proin nec purus ac ante semper faucibus. Suspendisse vulputate rutrum leo. Sed aliquet vestibulum feugiat. Praesent vestibulum vel ex ac vulputate. Quisque tortor leo, consequat nec quam eu, vulputate feugiat ipsum. Aliquam vel diam sed elit feugiat faucibus aliquet ac nisl. Nulla sed vehicula nisl. Suspendisse convallis hendrerit condimentum.
+
+Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod
+tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At
+vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren,
+no sea takimata sanctus est Lorem ipsum dolor sit amet.
+
+Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod
+tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At
+vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren,
+no sea takimata sanctus est Lorem ipsum dolor sit amet.
+
+\vspace{3cm}
+Data: Dec 8, 2019 
+
+Il Rappresentante:
+
+\vspace{0.5cm}
+
+
+Francesco Guarnaccia - Alltre S.r.l.
+
+
+\vspace{0.2cm}
+
+
+% SIGNATURE
+
+
+\end{document}

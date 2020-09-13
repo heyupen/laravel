@@ -1,0 +1,31 @@
+client
+clients
+-
+i
+s nome
+s username
+s password
+s email
+s banca
+s nomeintestatario
+s cognomeintestatario
+s contocarta
+s mesescadenza
+s annoscadenza
+s abi 
+s cab 
+s cin 
+s rid 
+s iban 
+s tipologia_pagamento 
+s idtipologiacliente 
+s telefono 
+s fax 
+s pivacf
+s indirizzo 
+s localita 
+s comune 
+s provincia 
+s stato 
+s cap 
+t

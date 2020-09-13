@@ -1,0 +1,36 @@
+required : php7
+
+https://forge.laravel.com/servers/214717#/websites
+https://github.com/andbod/agentifibraforte
+https://cloud.digitalocean.com/
+
+server : 178.62.234.132 
+
+Name:	fibraforte
+IP Address:	178.62.234.132
+Username:	forge
+Sudo Password:	9XCchaz4G2rRbRIGUgVJ
+Database Username:	forge
+Database Password:	iJaStPUxi3c5KbOczuVx
+
+su password : 1xVPMTRR55s
+/home/forge/default
+
+install composer
+create DB and import forge.sql
+create forge user and GRANT
+
+cambiare le path in questi files
+app/Mail/Proposal.php:      ->attach('/home/forge/default/storage/app/public/offers/'.$this->offer->pdf.'.pdf', [
+app/Mail/ProposalSigned.php:      ->attach('/home/forge/default/storage/app/public/offers/'.$this->offer->pdf.'.pdf', [
+app/Console/Commands/GeneratePdf.php:     $absolutePath = '/home/forge/default/storage/app/';
+app/Console/Commands/GeneratePdf.php:    $process = new Process("/usr/bin/pdflatex -output-directory /home/forge/default/storage/app/public/offers/ /home/forge/default/storage/app/temp/${temp}; mv /home/forge/default/storage/app/public/offers/${temp}.pdf /home/forge/default/storage/app/public/offers/${offerPdf}.pdf; rm /home/forge/default/storage/app/public/offers/${temp}.aux; rm /home/forge/default/storage/app/public/offers/${temp}.log");
+
+modificare .env con i dati dei webservice, db, app
+
+to debug use :
+composer require barryvdh/laravel-debugbar
+change app/config/app.php e .env mettendo debug a true
+
+controllare che sia presente php7.3
+ 
