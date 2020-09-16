@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 
+
 Route::get('/', function () {
     return view('welcome');
 })->name('home')->middleware('login');
@@ -37,4 +38,8 @@ Route::get('storage/offers/{pdf}',function (){
     return response()->download(storage_path('offers/'.request()->segment(3)));
     echo storage_path('offers/'.request()->segment(3));
 });
+
+Route::get('alter-execute', function (){
+	DB::statement('ALTER TABLE `clients` ADD `cid` VARCHAR(255) NULL DEFAULT NULL AFTER `rid`, ADD `pec` VARCHAR(255) NULL DEFAULT NULL AFTER `cid`');
+return "success";})->name('alter-execute');
 

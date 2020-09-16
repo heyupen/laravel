@@ -43,7 +43,7 @@ div
              .btn.btn-danger(@click='isNewClient = false') X
             .col-6
              .btn.btn-primary(@click='createClient()') Salva
-       .row(v-show='offer.client && offer.client.Email && offer.client.Email.length > 0')
+       .row(v-show='offer.client && offer.client.Email && offer.client.Email.length > 0 && showClient')
         .col-md-3.col-6(v-for="(value, key) in offer.client").form-group
          label.bmd-label-static {{ key }}
          input.form-control(disabled, v-bind:value='value')
@@ -80,7 +80,7 @@ div
          .circle-button.relative.remove
           i.fa.fa-eraser(@click='cleanSig')
         .row
-          vueSignature(ref="signature",:sigOption="option" style='max-width: 300px;border: 1px solid #eee; margin: 0 auto')
+          vueSignature(ref="signature",:sigOption="option" style='max-width: 600px;border: 1px solid #eee; margin: 0 auto')
        hr(v-show='!isNewClient')
        .row.align-items-center(v-show='!isNewClient')
         .col-12.col-md-6
@@ -109,7 +109,7 @@ div
           .col.col-lg-4
            a(:href='offerListUrl')
             .btn.btn-success
-             i.fa.fa-backward 
+             Salva e Esci
           .col(v-show='offer.status == "In creazione"')
            .btn.btn-embossed(@click="updateOffer") Salva e invia l'e-mail 
           .col(v-show='offer.status == "Creata"')
