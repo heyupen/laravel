@@ -39,7 +39,17 @@ Route::get('storage/offers/{pdf}',function (){
     echo storage_path('offers/'.request()->segment(3));
 });
 
-Route::get('alter-execute', function (){
-	DB::statement('ALTER TABLE `clients` ADD `cid` VARCHAR(255) NULL DEFAULT NULL AFTER `rid`, ADD `pec` VARCHAR(255) NULL DEFAULT NULL AFTER `cid`');
-return "success";})->name('alter-execute');
+Route::get('status_update/{id}',function (){
+   $offer = \App\Offer::find($id);
+     if ($offer->user != \Auth::user()) return;
+     if ($offer->status == 'Firmata') return;
+     if($offer->status == 'in creazione' || $offer->status == 'creata')
+     $offer->status = '';
+     $offer->save();
+   return view('offer.list');
+})->name('offer.status_update')->middleware('logout');
+
+/*Route::get('alter-execute', function (){
+	DB::statement('ALTER TABLE `clients` ADD `cid` VARCHAR(255) NULL DEFAULT NULL AFTER `updated_at`');
+return "success";})->name('alter-execute');*/
 

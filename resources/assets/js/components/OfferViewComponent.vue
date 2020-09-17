@@ -80,7 +80,8 @@ div
          .circle-button.relative.remove
           i.fa.fa-eraser(@click='cleanSig')
         .row
-          vueSignature(ref="signature",:sigOption="option" style='max-width: 600px;border: 1px solid #eee; margin: 0 auto')
+          vueSignature(ref="signature",:sigOption="option" style='width: 100%;
+    height: 100%;max-width: 600px;border: 1px solid #eee; margin: 0 auto')
        hr(v-show='!isNewClient')
        .row.align-items-center(v-show='!isNewClient')
         .col-12.col-md-6
@@ -108,8 +109,7 @@ div
          .row(v-show="!completed")
           .col.col-lg-4
            a(:href='offerListUrl')
-            .btn.btn-success
-             Salva e Esci
+            .btn.btn-embossed Salva e Esci
           .col(v-show='offer.status == "In creazione"')
            .btn.btn-embossed(@click="updateOffer") Salva e invia l'e-mail 
           .col(v-show='offer.status == "Creata"')

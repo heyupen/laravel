@@ -57,9 +57,13 @@
        <a :href='offer.link'>
        <i class="fa fa-eye" v-show="offer.status == 'Firmata'"></i>
        </a>
-       <a :href='offer.link'>
-       <i v-show="offer.status!='Firmata'" class="fa fa-edit"></i>
+       <a :href='offer.status_change'>
+       <button v-show="offer.status==='in creazione'"> Change to Archiviata</button>
        </a>
+       <a :href='offer.status_change'>
+       <button v-show="offer.status==='creata'"> Change to Archiviata</button>
+       </a>
+
        <!--<a :v-confirm="{ok: deleteOffer(offer.id), cancel: doNothing, message: 'Questa offerta verra\' eliminata. Sei sicuro di procedere?'}">
        <i v-show="offer.status!='Firmata'" class="fa fa-trash"></i>
        </a>

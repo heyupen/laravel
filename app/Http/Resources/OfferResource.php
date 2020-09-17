@@ -51,6 +51,7 @@ class OfferResource extends JsonResource
        'all_services' => ServiceCategoryResource::collection(\App\ServiceCategory::with('services')->get()),
        'status' => $this->status, 
        'link' => route('offer.view', [$this->id]),
+       'status_change' => route('offer.status_update', [$this->id]),
        'created_at' => $this->created_at->diffForHumans(),
        'updated_at' => $this->updated_at->diffForHumans(),
       ];
