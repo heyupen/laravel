@@ -46,6 +46,7 @@ class OfferResource extends JsonResource
        'PEC' => '',
        'CID' => '',
        'PA' => '',
+       'INTERNAL NOTES' => ''
        ]]),
        'services' => ServiceResource::collection($this->services),
        'all_services' => ServiceCategoryResource::collection(\App\ServiceCategory::with('services')->get()),

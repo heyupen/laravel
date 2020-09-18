@@ -20,7 +20,7 @@ class OfferController extends Controller
        })->where('user_id', $user_id)
       );
      } else
-      return \App\Http\Resources\OfferResource::collection(\App\Offer::where('user_id', $user_id)->get());
+      return \App\Http\Resources\OfferResource::collection(\App\Offer::where('user_id', $user_id)->where('status','Creata')->orWhere('status','In creazione')->get());
     }
 
     public function store(Request $request)

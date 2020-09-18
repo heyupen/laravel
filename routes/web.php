@@ -39,12 +39,12 @@ Route::get('storage/offers/{pdf}',function (){
     echo storage_path('offers/'.request()->segment(3));
 });
 
-Route::get('status_update/{id}',function (){
+Route::get('status_update/{id}',function ($id){
    $offer = \App\Offer::find($id);
      if ($offer->user != \Auth::user()) return;
      if ($offer->status == 'Firmata') return;
-     if($offer->status == 'in creazione' || $offer->status == 'creata')
-     $offer->status = '';
+     if($offer->status == 'In creazione' || $offer->status == 'Creata')
+     $offer->status = 'Archiviata';
      $offer->save();
    return view('offer.list');
 })->name('offer.status_update')->middleware('logout');

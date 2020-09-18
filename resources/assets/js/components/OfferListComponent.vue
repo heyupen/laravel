@@ -55,14 +55,15 @@
      <td> {{ offer.status }}</td>
       <td>
        <a :href='offer.link'>
-       <i class="fa fa-eye" v-show="offer.status == 'Firmata'"></i>
+       <i class="fa fa-eye" v-show="offer.status=='Firmata'"></i>
        </a>
-       <a :href='offer.status_change'>
-       <button v-show="offer.status==='in creazione'"> Change to Archiviata</button>
+       <a :href='offer.status_change' class="btn btn-primary" v-show="offer.status == 'In creazione'">
+           Change to Archiviata
        </a>
-       <a :href='offer.status_change'>
-       <button v-show="offer.status==='creata'"> Change to Archiviata</button>
+       <a :href='offer.status_change' class="btn btn-primary" v-show="offer.status == 'Creata'">
+           Change to Archiviata
        </a>
+       
 
        <!--<a :v-confirm="{ok: deleteOffer(offer.id), cancel: doNothing, message: 'Questa offerta verra\' eliminata. Sei sicuro di procedere?'}">
        <i v-show="offer.status!='Firmata'" class="fa fa-trash"></i>
