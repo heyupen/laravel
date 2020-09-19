@@ -78,7 +78,7 @@ div
         .row.justify-content-center.sig
          h2 Firma l'offerta 
          .circle-button.relative.remove
-          i.fa.fa-eraser(@click='cleanSig')
+          i.fa.fa-trash(@click='cleanSig')
         .row
           vueSignature(ref="signature",:sigOption="option" style='max-width: 600px;border: 1px solid #eee; margin: 0 auto')
        hr(v-show='!isNewClient')

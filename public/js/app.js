@@ -52616,7 +52616,7 @@ var render = function() {
                               { staticClass: "circle-button relative remove" },
                               [
                                 _c("i", {
-                                  staticClass: "fa fa-eraser",
+                                  staticClass: "fa fa-trash",
                                   on: { click: _vm.cleanSig }
                                 })
                               ]
@@ -53084,6 +53084,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -53262,6 +53265,20 @@ var render = function() {
                               }
                             ],
                             staticClass: "fa fa-eye"
+                          })
+                        ]),
+                        _vm._v(" "),
+                        _c("a", { attrs: { href: offer.link } }, [
+                          _c("i", {
+                            directives: [
+                              {
+                                name: "show",
+                                rawName: "v-show",
+                                value: offer.status != "Firmata",
+                                expression: "offer.status!='Firmata'"
+                              }
+                            ],
+                            staticClass: "fa fa-edit"
                           })
                         ]),
                         _vm._v(" "),

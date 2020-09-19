@@ -20,7 +20,7 @@ class OfferController extends Controller
        })->where('user_id', $user_id)
       );
      } else
-      return \App\Http\Resources\OfferResource::collection(\App\Offer::where('user_id', $user_id)->where('status','Creata')->orWhere('status','In creazione')->get());
+      return \App\Http\Resources\OfferResource::collection(\App\Offer::where('user_id', $user_id)->where('status','Creata')/*->orWhere('status','In creazione')*/->get());
     }
 
     public function store(Request $request)
@@ -33,6 +33,7 @@ class OfferController extends Controller
     {
      \Artisan::call('update:services');
      $offer = \App\Offer::find($id);
+     //$offer->totalServiceCharge = \App\Offer::where
      if ($offer->user != \Auth::user()) return;
      return new \App\Http\Resources\OfferResource($offer);
     }

@@ -26,5 +26,6 @@ var USER_AGENCY = "{{ Auth::user()->agenzia }}";
 var OFFER_ID = "{{ $id }}";
 console.log(API_ENDPOINT_OFFER);
 </script>
+
 <script src="{{mix('js/app.js')}}"></script>
 @endsection

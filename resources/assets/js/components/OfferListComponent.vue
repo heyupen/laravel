@@ -57,6 +57,9 @@
        <a :href='offer.link'>
        <i class="fa fa-eye" v-show="offer.status=='Firmata'"></i>
        </a>
+       <a :href='offer.link'>
+       <i v-show="offer.status!='Firmata'" class="fa fa-edit"></i>
+       </a>
        <a :href='offer.status_change' class="btn btn-primary" v-show="offer.status == 'In creazione'">
            Change to Archiviata
        </a>
