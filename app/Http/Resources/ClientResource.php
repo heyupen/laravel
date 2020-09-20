@@ -40,6 +40,7 @@ class ClientResource extends JsonResource
 	   'PEC' => $this->pec,
        'CID' => $this->cid,
        'PA' => $this->pa,
+       'INTERNAL NOTES' => $this->internal_notes,
       // 'Aggiornato' => $this->updated_at->diffForHumans(),
       ];    
     }
