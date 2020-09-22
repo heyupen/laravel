@@ -53087,6 +53087,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -53098,7 +53107,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       agente: USER,
       agenzia: USER_AGENCY,
       createOfferUrl: URL_OFFER_CREATE,
-      logoutUrl: URL_LOGOUT
+      logoutUrl: URL_LOGOUT,
+      selected: null,
+      options: [{ value: null, text: 'Select Status Filter' }, { value: 'Chiuse', text: 'Chiuse' }, { value: 'Archiviata', text: 'Archiviata' }, { value: 'Creata', text: 'Creata' }, { value: 'In creazione', text: 'In creazione' }]
     };
   },
   mounted: function mounted() {
@@ -53116,6 +53127,27 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           type: 'GET',
           url: API_ENDPOINT_OFFERS,
           data: { search: this.search },
+          success: function (data) {
+            console.log(data);
+            this.offers = data.data;
+          }.bind(this),
+          error: function error(xhr) {
+            alert("Si è verificato un errore durante la richiesta all'API");
+          },
+          complete: function () {
+            this.loading = false;
+          }.bind(this)
+        });
+      }.bind(this), 1000);
+    },
+    filterByStatus: function filterByStatus(selected) {
+      console.log(selected);
+      this.loading = true;
+      setTimeout(function () {
+        $.ajax({
+          type: 'GET',
+          url: API_ENDPOINT_OFFERS,
+          data: { filter: selected },
           success: function (data) {
             console.log(data);
             this.offers = data.data;
@@ -53211,6 +53243,65 @@ var render = function() {
                       _vm._m(0)
                     ]
                   )
+                ]),
+                _vm._v(" "),
+                _c("div", [
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.selected,
+                          expression: "selected"
+                        }
+                      ],
+                      attrs: { name: "status" },
+                      on: {
+                        change: [
+                          function($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function(o) {
+                                return o.selected
+                              })
+                              .map(function(o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.selected = $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          },
+                          function($event) {
+                            return _vm.filterByStatus(_vm.selected)
+                          }
+                        ]
+                      }
+                    },
+                    [
+                      _c("option", { attrs: { value: "Creata" } }, [
+                        _vm._v("Creata")
+                      ]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "In creazione" } }, [
+                        _vm._v("In creazione")
+                      ]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "Archiviata" } }, [
+                        _vm._v("Archiviata")
+                      ]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "Chiuse" } }, [
+                        _vm._v("Chiuse")
+                      ])
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "mt-3" }, [
+                    _vm._v("Selected: "),
+                    _c("strong", [_vm._v(_vm._s(_vm.selected))])
+                  ])
                 ]),
                 _vm._v(" "),
                 _c("div", { staticClass: "col-sm-auto" }, [

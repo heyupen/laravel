@@ -15,24 +15,33 @@
           </div>
         </div>
         <div class="card-body">
-         <div class="row align-items-center">
-          <div class="col">
-         <form class="form-inline" v-on:submit.prevent="getData">
-  <div class="form-group">
-    <label class="bmd-label-floating">Cerca offerte</label>
-    <input type="text" v-model="search" class="form-control">
-  </div>
-  <span class="form-group">
-   <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i></button>
-  </span>
-</form>
-          </div>
-          <div class='col-sm-auto'>
-           <div style='margin-top: 10px'>
-    <a :href="createOfferUrl">
-     <button type="submit" class="btn btn-embossed"><i class="fa fa-plus"></i> Aggiungi nuova offerta</button></a>
-          </div>
-          </div>
+           <div class="row align-items-center">
+            <div class="col">
+              <form class="form-inline" v-on:submit.prevent="getData">
+                <div class="form-group">
+                  <label class="bmd-label-floating">Cerca offerte</label>
+                  <input type="text" v-model="search" class="form-control">
+                </div>
+                <span class="form-group">
+                  <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i></button>
+                </span>
+              </form>
+            </div>
+            <div>
+            <select v-model="selected" name="status" v-on:change="filterByStatus(selected)">
+              <option value="Creata">Creata</option>
+              <option value="In creazione">In creazione</option>
+              <option value="Archiviata">Archiviata</option>
+              <option value="Chiuse">Chiuse</option>
+            </select>
+              <div class="mt-3">Selected: <strong>{{ selected }}</strong></div>
+            </div>
+            <div class='col-sm-auto'>
+             <div style='margin-top: 10px'>
+                <a :href="createOfferUrl">
+                <button type="submit" class="btn btn-embossed"><i class="fa fa-plus"></i> Aggiungi nuova offerta</button></a>
+              </div>
+            </div>
           </div>
          <table class="table">
   <thead>
@@ -96,6 +105,14 @@ export default {
       agenzia: USER_AGENCY,
       createOfferUrl: URL_OFFER_CREATE,
       logoutUrl: URL_LOGOUT,
+      selected: null,
+        options: [
+          { value: null, text: 'Select Status Filter' },
+          { value: 'Chiuse', text: 'Chiuse' },
+          { value: 'Archiviata', text: 'Archiviata' },
+          { value: 'Creata', text: 'Creata' },
+          { value: 'In creazione', text: 'In creazione'}
+        ]
     };
   },
   mounted() {
@@ -127,6 +144,30 @@ export default {
         }.bind(this),
         1000,
       );
+    },
+    filterByStatus: function(selected) {
+        console.log(selected);
+        this.loading = true;
+        setTimeout(
+          function() {
+            $.ajax({
+              type: 'GET',
+              url: API_ENDPOINT_OFFERS,
+              data: {filter: selected},
+              success: function(data) {
+                console.log(data);
+                this.offers = data.data;
+              }.bind(this),
+              error: function(xhr) {
+                alert("Si è verificato un errore durante la richiesta all'API");
+              },
+              complete: function() {
+                this.loading = false;
+              }.bind(this),
+            });
+          }.bind(this),
+          1000,
+        );
     },
   },
 };

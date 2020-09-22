@@ -19,7 +19,13 @@ class OfferController extends Controller
         $query->where('nome', 'like', "%{$request->input('search')}%");
        })->where('user_id', $user_id)
       );
-     } else
+     } else if($request->input('filter')){
+        return \App\Http\Resources\OfferResource::collection(
+            \App\Offer::where('user_id', $user_id)->where('status',$request->input('filter'))->get()
+      );
+
+
+     }else
       return \App\Http\Resources\OfferResource::collection(\App\Offer::where('user_id', $user_id)->where('status','Creata')/*->orWhere('status','In creazione')*/->get());
     }
 
