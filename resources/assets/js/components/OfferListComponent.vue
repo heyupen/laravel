@@ -28,13 +28,13 @@
               </form>
             </div>
             <div>
-            <select v-model="selected" name="status" v-on:change="filterByStatus(selected)">
+            <select v-model="selected" name="status" v-on:change="filterByStatus(selected)" style="margin-top: 5px;">
+              <option value="">Select an option</option>
               <option value="Creata">Creata</option>
               <option value="In creazione">In creazione</option>
               <option value="Archiviata">Archiviata</option>
               <option value="Chiuse">Chiuse</option>
             </select>
-              <div class="mt-3">Selected: <strong>{{ selected }}</strong></div>
             </div>
             <div class='col-sm-auto'>
              <div style='margin-top: 10px'>
@@ -69,13 +69,19 @@
        <a :href='offer.link'>
        <i v-show="offer.status!='Firmata'" class="fa fa-edit"></i>
        </a>
-       <a :href='offer.status_change' class="btn btn-primary" v-show="offer.status == 'In creazione'">
-           Change to Archiviata
+       <a :href='offer.status_change'>          
+        <i v-show="offer.status=='In creazione'" class="fa fa-archive"></i>
        </a>
-       <a :href='offer.status_change' class="btn btn-primary" v-show="offer.status == 'Creata'">
-           Change to Archiviata
+       <a :href='offer.status_change'>
+          <i v-show="offer.status='Creata'" class="fa fa-archive"></i>
        </a>
-       
+       <select v-model="selected2" name="status2" v-on:change="changetoPreStato(selected2,offer.id)" v-show="offer.status == 'Creata'" style="margin-left: 10px;vertical-align: top;">
+              <option value="">Select an option</option>
+              <option value="Creata">Creata</option>
+              <option value="In creazione">In creazione</option>
+              <option value="Archiviata">Archiviata</option>
+              <option value="Chiuse">Chiuse</option>
+        </select>         
 
        <!--<a :v-confirm="{ok: deleteOffer(offer.id), cancel: doNothing, message: 'Questa offerta verra\' eliminata. Sei sicuro di procedere?'}">
        <i v-show="offer.status!='Firmata'" class="fa fa-trash"></i>
@@ -105,14 +111,22 @@ export default {
       agenzia: USER_AGENCY,
       createOfferUrl: URL_OFFER_CREATE,
       logoutUrl: URL_LOGOUT,
-      selected: null,
+      selected: '',
         options: [
           { value: null, text: 'Select Status Filter' },
           { value: 'Chiuse', text: 'Chiuse' },
           { value: 'Archiviata', text: 'Archiviata' },
           { value: 'Creata', text: 'Creata' },
           { value: 'In creazione', text: 'In creazione'}
-        ]
+        ],
+    selected2: '',
+      options: [
+        { value: null, text: 'Select Status Filter' },
+        { value: 'Chiuse', text: 'Chiuse' },
+        { value: 'Archiviata', text: 'Archiviata' },
+        { value: 'Creata', text: 'Creata' },
+        { value: 'In creazione', text: 'In creazione'}
+      ]
     };
   },
   mounted() {
@@ -157,6 +171,32 @@ export default {
               success: function(data) {
                 console.log(data);
                 this.offers = data.data;
+              }.bind(this),
+              error: function(xhr) {
+                alert("Si è verificato un errore durante la richiesta all'API");
+              },
+              complete: function() {
+                this.loading = false;
+              }.bind(this),
+            });
+          }.bind(this),
+          1000,
+        );
+    },
+    changetoPreStato: function(selected2,id) {
+        console.log(selected2);
+        console.log(id);
+        this.loading = true;
+        setTimeout(
+          function() {
+            $.ajax({
+              type: 'POST',
+              url: API_ENDPOINT_OFFERS_STATUS,
+              data: {filter: selected2,offer_id: id},
+              success: function(data) {
+                console.log(data);
+                this.offers = data.data;
+                this.selected2 = '';
               }.bind(this),
               error: function(xhr) {
                 alert("Si è verificato un errore durante la richiesta all'API");
@@ -231,5 +271,12 @@ form * {
 }
 form {
   margin-bottom: 0;
+}
+select {
+  padding: 7px 15px;
+  font-size: 15px;
+  color: #2196f3;
+  border: 1px solid #2196f3;
+  
 }
 </style>

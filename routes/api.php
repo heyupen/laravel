@@ -56,5 +56,6 @@ Route::middleware(['logout'])->group(function() {
  Route::post('update-offer/', 'API\OfferController@up')->name('update-offer');
  Route::post('offer-signature/', 'API\OfferController@sign')->name('offer-signature');
  Route::post('add-client/', 'API\OfferController@addClient')->name('add-client');
+ Route::post('change_to_prev_stato','API\OfferController@changeOfferStatus')->name('offer.change_to_prev_stato');
 }
 );

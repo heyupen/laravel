@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
+use Redirect;
 
 class OfferController extends Controller
 {
@@ -210,4 +211,18 @@ class OfferController extends Controller
       $offer->save();
      }
    }
+
+   public function changeOfferStatus(Request $request){
+    $user_id = \Auth::id();
+    $stato = $request->input('filter');
+    $id = $request->input('offer_id');
+       $offer = \App\Offer::find($id);
+         if ($offer->user != \Auth::user()) return;
+         if ($offer->status == 'Firmata') return;
+         if($offer->status == 'Creata')
+         $offer->status = $stato;
+         $offer->save();
+    return Redirect::route('offers.index');
+      // return \App\Http\Resources\OfferResource::collection(\App\Offer::where('user_id', $user_id)->where('status','Creata')->get());
+    }
  }

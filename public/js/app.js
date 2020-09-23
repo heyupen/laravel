@@ -52990,7 +52990,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "\n.container img[data-v-22cfedfa] {\n  width: 100px;\n}\n.card-header[data-v-22cfedfa] {\n  text-align: center;\n}\n.card-body form[data-v-22cfedfa] {\n  text-align: center;\n}\n.btn[data-v-22cfedfa] {\n  color: #1670b8 !important;\n  border: 1px solid #1670b8 !important;\n}\n.btn-embossed[data-v-22cfedfa] {\n  color: #fff !important;\n  background: #1670b8 !important;\n}\n.card-body[data-v-22cfedfa] {\n  padding-bottom: 20px;\n}\ni[data-v-22cfedfa] {\n  padding: 0 10px;\n  cursor: pointer;\n}\nform *[data-v-22cfedfa] {\n  -webkit-box-flex: 1 !important;\n      -ms-flex-positive: 1 !important;\n          flex-grow: 1 !important;\n  margin: 5px;\n}\n.card-header div.name[data-v-22cfedfa] {\n  position: absolute;\n  top: 25px;\n  left: 25px;\n}\n.card-header div.page[data-v-22cfedfa] {\n  position: absolute;\n  top: 25px;\n  left: 25px;\n}\n.card-header div.logout[data-v-22cfedfa] {\n  position: absolute;\n  top: 25px;\n  right: 25px;\n}\n.dotted[data-v-22cfedfa] {\n  -webkit-text-decoration-line: underline;\n          text-decoration-line: underline;\n  -webkit-text-decoration-style: dotted;\n          text-decoration-style: dotted;\n}\n.badge-primary[data-v-22cfedfa] {\n  color: white !important;\n  background: #1670b8 !important;\n  border: 1px solid #1670b8 !important;\n}\n.card-header[data-v-22cfedfa] {\n  padding: 50px;\n}\nform[data-v-22cfedfa] {\n  margin-bottom: 0;\n}\n", ""]);
+exports.push([module.i, "\n.container img[data-v-22cfedfa] {\n  width: 100px;\n}\n.card-header[data-v-22cfedfa] {\n  text-align: center;\n}\n.card-body form[data-v-22cfedfa] {\n  text-align: center;\n}\n.btn[data-v-22cfedfa] {\n  color: #1670b8 !important;\n  border: 1px solid #1670b8 !important;\n}\n.btn-embossed[data-v-22cfedfa] {\n  color: #fff !important;\n  background: #1670b8 !important;\n}\n.card-body[data-v-22cfedfa] {\n  padding-bottom: 20px;\n}\ni[data-v-22cfedfa] {\n  padding: 0 10px;\n  cursor: pointer;\n}\nform *[data-v-22cfedfa] {\n  -webkit-box-flex: 1 !important;\n      -ms-flex-positive: 1 !important;\n          flex-grow: 1 !important;\n  margin: 5px;\n}\n.card-header div.name[data-v-22cfedfa] {\n  position: absolute;\n  top: 25px;\n  left: 25px;\n}\n.card-header div.page[data-v-22cfedfa] {\n  position: absolute;\n  top: 25px;\n  left: 25px;\n}\n.card-header div.logout[data-v-22cfedfa] {\n  position: absolute;\n  top: 25px;\n  right: 25px;\n}\n.dotted[data-v-22cfedfa] {\n  -webkit-text-decoration-line: underline;\n          text-decoration-line: underline;\n  -webkit-text-decoration-style: dotted;\n          text-decoration-style: dotted;\n}\n.badge-primary[data-v-22cfedfa] {\n  color: white !important;\n  background: #1670b8 !important;\n  border: 1px solid #1670b8 !important;\n}\n.card-header[data-v-22cfedfa] {\n  padding: 50px;\n}\nform[data-v-22cfedfa] {\n  margin-bottom: 0;\n}\nselect[data-v-22cfedfa] {\n  padding: 7px 15px;\n  font-size: 15px;\n  color: #2196f3;\n  border: 1px solid #2196f3;\n}\n", ""]);
 
 // exports
 
@@ -53001,6 +53001,14 @@ exports.push([module.i, "\n.container img[data-v-22cfedfa] {\n  width: 100px;\n}
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -53099,7 +53107,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
-    return {
+    return _defineProperty({
       logo_img: LOGO_IMG,
       offers: [],
       loading: false,
@@ -53108,9 +53116,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       agenzia: USER_AGENCY,
       createOfferUrl: URL_OFFER_CREATE,
       logoutUrl: URL_LOGOUT,
-      selected: null,
-      options: [{ value: null, text: 'Select Status Filter' }, { value: 'Chiuse', text: 'Chiuse' }, { value: 'Archiviata', text: 'Archiviata' }, { value: 'Creata', text: 'Creata' }, { value: 'In creazione', text: 'In creazione' }]
-    };
+      selected: '',
+      options: [{ value: null, text: 'Select Status Filter' }, { value: 'Chiuse', text: 'Chiuse' }, { value: 'Archiviata', text: 'Archiviata' }, { value: 'Creata', text: 'Creata' }, { value: 'In creazione', text: 'In creazione' }],
+      selected2: ''
+    }, 'options', [{ value: null, text: 'Select Status Filter' }, { value: 'Chiuse', text: 'Chiuse' }, { value: 'Archiviata', text: 'Archiviata' }, { value: 'Creata', text: 'Creata' }, { value: 'In creazione', text: 'In creazione' }]);
   },
   mounted: function mounted() {
     this.getData();
@@ -53151,6 +53160,29 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           success: function (data) {
             console.log(data);
             this.offers = data.data;
+          }.bind(this),
+          error: function error(xhr) {
+            alert("Si è verificato un errore durante la richiesta all'API");
+          },
+          complete: function () {
+            this.loading = false;
+          }.bind(this)
+        });
+      }.bind(this), 1000);
+    },
+    changetoPreStato: function changetoPreStato(selected2, id) {
+      console.log(selected2);
+      console.log(id);
+      this.loading = true;
+      setTimeout(function () {
+        $.ajax({
+          type: 'POST',
+          url: API_ENDPOINT_OFFERS_STATUS,
+          data: { filter: selected2, offer_id: id },
+          success: function (data) {
+            console.log(data);
+            this.offers = data.data;
+            this.selected2 = '';
           }.bind(this),
           error: function error(xhr) {
             alert("Si è verificato un errore durante la richiesta all'API");
@@ -53257,6 +53289,7 @@ var render = function() {
                           expression: "selected"
                         }
                       ],
+                      staticStyle: { "margin-top": "5px" },
                       attrs: { name: "status" },
                       on: {
                         change: [
@@ -53280,6 +53313,10 @@ var render = function() {
                       }
                     },
                     [
+                      _c("option", { attrs: { value: "" } }, [
+                        _vm._v("Select an option")
+                      ]),
+                      _vm._v(" "),
                       _c("option", { attrs: { value: "Creata" } }, [
                         _vm._v("Creata")
                       ]),
@@ -53296,12 +53333,7 @@ var render = function() {
                         _vm._v("Chiuse")
                       ])
                     ]
-                  ),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "mt-3" }, [
-                    _vm._v("Selected: "),
-                    _c("strong", [_vm._v(_vm._s(_vm.selected))])
-                  ])
+                  )
                 ]),
                 _vm._v(" "),
                 _c("div", { staticClass: "col-sm-auto" }, [
@@ -53373,27 +53405,44 @@ var render = function() {
                           })
                         ]),
                         _vm._v(" "),
-                        _c(
-                          "a",
-                          {
+                        _c("a", { attrs: { href: offer.status_change } }, [
+                          _c("i", {
                             directives: [
                               {
                                 name: "show",
                                 rawName: "v-show",
                                 value: offer.status == "In creazione",
-                                expression: "offer.status == 'In creazione'"
+                                expression: "offer.status=='In creazione'"
                               }
                             ],
-                            staticClass: "btn btn-primary",
-                            attrs: { href: offer.status_change }
-                          },
-                          [_vm._v("\n           Change to Archiviata\n       ")]
-                        ),
+                            staticClass: "fa fa-archive"
+                          })
+                        ]),
+                        _vm._v(" "),
+                        _c("a", { attrs: { href: offer.status_change } }, [
+                          _c("i", {
+                            directives: [
+                              {
+                                name: "show",
+                                rawName: "v-show",
+                                value: (offer.status = "Creata"),
+                                expression: "offer.status='Creata'"
+                              }
+                            ],
+                            staticClass: "fa fa-archive"
+                          })
+                        ]),
                         _vm._v(" "),
                         _c(
-                          "a",
+                          "select",
                           {
                             directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.selected2,
+                                expression: "selected2"
+                              },
                               {
                                 name: "show",
                                 rawName: "v-show",
@@ -53401,10 +53450,57 @@ var render = function() {
                                 expression: "offer.status == 'Creata'"
                               }
                             ],
-                            staticClass: "btn btn-primary",
-                            attrs: { href: offer.status_change }
+                            staticStyle: {
+                              "margin-left": "10px",
+                              "vertical-align": "top"
+                            },
+                            attrs: { name: "status2" },
+                            on: {
+                              change: [
+                                function($event) {
+                                  var $$selectedVal = Array.prototype.filter
+                                    .call($event.target.options, function(o) {
+                                      return o.selected
+                                    })
+                                    .map(function(o) {
+                                      var val =
+                                        "_value" in o ? o._value : o.value
+                                      return val
+                                    })
+                                  _vm.selected2 = $event.target.multiple
+                                    ? $$selectedVal
+                                    : $$selectedVal[0]
+                                },
+                                function($event) {
+                                  return _vm.changetoPreStato(
+                                    _vm.selected2,
+                                    offer.id
+                                  )
+                                }
+                              ]
+                            }
                           },
-                          [_vm._v("\n           Change to Archiviata\n       ")]
+                          [
+                            _c("option", { attrs: { value: "" } }, [
+                              _vm._v("Select an option")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "Creata" } }, [
+                              _vm._v("Creata")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "In creazione" } }, [
+                              _vm._v("In creazione")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "Archiviata" } }, [
+                              _vm._v("Archiviata")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "Chiuse" } }, [
+                              _vm._v("Chiuse")
+                            ])
+                          ]
                         )
                       ])
                     ])
