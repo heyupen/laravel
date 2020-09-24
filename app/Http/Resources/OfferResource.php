@@ -49,6 +49,7 @@ class OfferResource extends JsonResource
        'INTERNAL NOTES' => ''
        ]]),
        'services' => ServiceResource::collection($this->services),
+       'total_price' => $this->gettotalprice($this->services),
        'all_services' => ServiceCategoryResource::collection(\App\ServiceCategory::with('services')->get()),
        'status' => $this->status, 
        'link' => route('offer.view', [$this->id]),
@@ -56,5 +57,13 @@ class OfferResource extends JsonResource
        'created_at' => $this->created_at->diffForHumans(),
        'updated_at' => $this->updated_at->diffForHumans(),
       ];
+    }
+
+    public function gettotalprice($services) {
+      $price = 0;
+      for($i = 0; $i < sizeof($services); $i++) {
+        $price = $price + $services[$i]['price'];
+      }
+      return sprintf('%.2f', $price);
     }
 }

@@ -51,6 +51,7 @@
       <th scope="col">Servizi</th>
       <th scope="col">Ultima modifica</th>
       <th scope="col">Stato</th>
+      <th scope="col">Prezzo</th>
       <th scope="col">Azioni</th>
     </tr>
   </thead>
@@ -62,6 +63,7 @@
      </td>
      <td> {{ offer.updated_at }} </td>
      <td> {{ offer.status }}</td>
+     <td> {{ offer.total_price }}</td>
       <td>
        <a :href='offer.link'>
        <i class="fa fa-eye" v-show="offer.status=='Firmata'"></i>
