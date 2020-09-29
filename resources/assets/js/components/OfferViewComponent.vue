@@ -48,6 +48,30 @@ div
          label.bmd-label-static {{ key }}
          input.form-control(disabled, v-bind:value='value')
        hr
+       .row(v-show='!isNewClient')
+        .div.col-12.form-group.span(v-model="installaddresssameasdefault")
+           label Vuoi l'installazione del servizio in un nuovo indirizzo ?
+              .div.radClass
+                span
+                  input(type='radio', name='installaddresssameasdefault', value='yes' v-on:click="setAddressForm('yes')") 
+                  label .#{' '}#{' '}Yes
+                span
+                  input(type='radio', name='installaddresssameasdefault', value='no' v-on:click="setAddressForm('no')")
+                  label .#{' '}#{' '}No
+
+       .row(v-if="installaddresssameasdefault === 'yes'")
+          .col-md-3.col-6.form-group
+           label.bmd-label-static Localita
+           input.form-control(v-model='Localita')
+          .col-md-3.col-6.form-group
+           label.bmd-label-static Provincia
+           input.form-control(v-model='Provincia')
+          .col-md-3.col-6.form-group
+           label.bmd-label-static Stato
+           input.form-control(v-model='Stato')
+          .col-md-3.col-6.form-group
+           .btn.btn-embossed(@click='updateInstallAddress(Localita,Provincia,Stato)') update Address
+
        .row.services-title.justify-content-center(v-show='!isNewClient')
         h2 Servizi dell'offerta
        .row.services.no-padding-bottom
@@ -72,6 +96,7 @@ div
            option(selected='selected', disabled, hidden) Seleziona un'opzione
            option(v-for="type in service.services", :value='type.id')  {{ type.name }} - € {{ type.price }}
           .circle-button.add(@click='addService(service.id)')
+          
            i.fa.fa-plus
        section(v-if="offer.status=='Creata'")
         hr(v-show='!isNewClient')
@@ -149,6 +174,11 @@ export default {
         //backgroundColor: 'rgb(245,245,245)',
       },
       completed: false,
+      installaddresssameasdefault: 'no',
+      Localita: '',
+      Provincia: '',
+      Stato: '',
+
     };
   },
   mounted() {
@@ -157,6 +187,28 @@ export default {
   methods: {
     toggleClient() {
       this.showClient = !this.showClient;
+    },
+    setAddressForm(rad_val) {
+      this.installaddresssameasdefault = rad_val;
+    },
+    updateInstallAddress(Localita,Provincia,Stato){
+      this.Localita = Localita;
+      this.Provincia = Provincia;
+      this.Stato = Stato;
+      console.log(this.Stato);
+      console.log(this.Provincia);
+      console.log(this.Localita);
+      console.log(this.offer.id);
+      this.loading = true;
+      $.ajax({
+        type: 'POST',
+        url: API_ENDPOINT_UPDATE_CLIENT_ADDRESS,
+        data: {stato: this.Stato, provincia: this.Provincia, localita: this.Localita, offerid: this.offer.id},
+        success: function(data) {
+          this.getData();
+        }.bind(this),
+        error: function(xhr) {},
+      });
     },
     newClient() {
       var autocomplete = $('#autocomplete').val();
@@ -490,4 +542,8 @@ input
  background var(--blue) !important
 .service.pdf *
  margin 3px
+.radClass
+ padding-top 10px
+span
+  padding-right 10px
 </style>

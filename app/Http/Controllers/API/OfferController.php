@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
 use Redirect;
+use DB;
 
 class OfferController extends Controller
 {
@@ -16,7 +17,7 @@ class OfferController extends Controller
      if ($request->input('search')) {
      return \App\Http\Resources\OfferResource::collection(
       \App\Offer::whereHas('client',
-       function($query) use($request) {
+        function($query) use($request) {
         $query->where('nome', 'like', "%{$request->input('search')}%");
        })->where('user_id', $user_id)
       );
@@ -224,5 +225,20 @@ class OfferController extends Controller
          $offer->save();
     return Redirect::route('offers.index');
       // return \App\Http\Resources\OfferResource::collection(\App\Offer::where('user_id', $user_id)->where('status','Creata')->get());
+    }
+
+    public function changeInstallationAddress(Request $request){
+        $user_id = \Auth::id();
+        $offerid  = $request->input('offerid');
+        $offer = \App\Offer::find($offerid);
+        $client = \App\Client::find($offer->client_id);
+        $client->localita = $request->input('localita');
+        $client->provincia = $request->input('provincia');
+        $client->stato = $request->input('stato');
+        $client->save();
+
+        DB::table('service_installation_address_log')->insert(
+            ['client_id' => $offer->client_id, 'localita' => $client->localita, 'provincia' => $client->provincia, 'stato' => $client->stato]
+        );
     }
  }

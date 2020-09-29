@@ -44,7 +44,16 @@ Vue.component(
   'offer-list-component',
   require('./components/OfferListComponent.vue'),
 );
+Vue.component('address-modal', {
+  template: '#address-modal',
+})
 
 const app = new Vue({
   el: '#app',
+  methods: {
+    showModal() {
+      let element = this.$refs.modal.$el
+      $(element).modal('show')
+    }
+  }
 });

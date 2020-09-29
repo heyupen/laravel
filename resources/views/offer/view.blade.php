@@ -20,6 +20,7 @@ var API_ENDPOINT_SEARCH_CLIENT = "{{ route('search-client') }}";
 var API_ENDPOINT_REMOVE_CLIENT = "{{ route('remove-client') }}";
 var API_ENDPOINT_OFFER_REMOVE = "{{ route('offer.destroy') }}";
 var API_ENDPOINT_OFFER_UPDATE = "{{ route('update-offer') }}";
+var API_ENDPOINT_UPDATE_CLIENT_ADDRESS = "{{route('update-install-address')}}";
 var API_ENDPOINT_OFFER_SIGNATURE = "{{ route('offer-signature') }}";
 var USER = "{{ Auth::user()->agente }}";
 var USER_AGENCY = "{{ Auth::user()->agenzia }}";
