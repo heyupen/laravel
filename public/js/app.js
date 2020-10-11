@@ -53409,7 +53409,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             console.log(data);
             this.offers = data.data;
             this.status = selected2;
-            this.selected2 = '';
+            this.selected = selected2;
+            this.selected2 = ' ';
           }.bind(this),
           error: function error(xhr) {
             alert("Si è verificato un errore durante la richiesta all'API");

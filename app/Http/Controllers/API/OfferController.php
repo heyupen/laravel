@@ -229,12 +229,12 @@ class OfferController extends Controller
     $id = $request->input('offer_id');
        $offer = \App\Offer::find($id);
          if ($offer->user != \Auth::user()) return;
-         if ($offer->status == 'Firmata') return;
-         if($offer->status == 'Creata')
+        /* if ($offer->status == 'Firmata') return;
+         if($offer->status == 'Creata')*/
          $offer->status = $stato;
          $offer->save();
-    return Redirect::route('offers.index');
-      // return \App\Http\Resources\OfferResource::collection(\App\Offer::where('user_id', $user_id)->where('status','Creata')->get());
+       // return Redirect::route('offers.index');
+       return \App\Http\Resources\OfferResource::collection(\App\Offer::where('user_id', $user_id)->where('status', $stato)->get());
     }
 
     public function changeInstallationAddress(Request $request){

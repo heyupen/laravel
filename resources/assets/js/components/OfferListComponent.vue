@@ -191,7 +191,8 @@ export default {
                 console.log(data);
                 this.offers = data.data;
                 this.status = selected2;
-                this.selected2 = '';
+                this.selected = selected2;
+                this.selected2 = ' ';
               }.bind(this),
               error: function(xhr) {
                 alert("Si è verificato un errore durante la richiesta all'API");
