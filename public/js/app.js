@@ -16118,18 +16118,9 @@ Vue.component('loader', __webpack_require__(52));
 Vue.component('login-component', __webpack_require__(58));
 Vue.component('offer-view-component', __webpack_require__(63));
 Vue.component('offer-list-component', __webpack_require__(68));
-Vue.component('address-modal', {
-  template: '#address-modal'
-});
-
 var app = new Vue({
   el: '#app',
-  methods: {
-    showModal: function showModal() {
-      var element = this.$refs.modal.$el;
-      $(element).modal('show');
-    }
-  }
+  methods: {}
 });
 
 /***/ }),
@@ -53242,12 +53233,6 @@ exports.push([module.i, "\n.container img[data-v-22cfedfa] {\r\n  width: 100px;\
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-//
-//
-//
-//
 //
 //
 //
@@ -53350,21 +53335,23 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
-    return _defineProperty({
+    return {
       logo_img: LOGO_IMG,
       offers: [],
+      status: '',
       loading: false,
       search: '',
       agente: USER,
       agenzia: USER_AGENCY,
       createOfferUrl: URL_OFFER_CREATE,
       logoutUrl: URL_LOGOUT,
-      selected: '',
-      options: [{ value: null, text: 'Select Status Filter' }, { value: 'Chiuse', text: 'Chiuse' }, { value: 'Archiviata', text: 'Archiviata' }, { value: 'Creata', text: 'Creata' }, { value: 'In creazione', text: 'In creazione' }],
-      selected2: ''
-    }, 'options', [{ value: null, text: 'Select Status Filter' }, { value: 'Chiuse', text: 'Chiuse' }, { value: 'Archiviata', text: 'Archiviata' }, { value: 'Creata', text: 'Creata' }, { value: 'In creazione', text: 'In creazione' }]);
+      selected: ' ',
+      options: [{ value: ' ', text: 'Select option' }, { value: 'Chiuse', text: 'Chiuse' }, { value: 'Archiviata', text: 'Archiviata' }, { value: 'Creata', text: 'Creata' }, { value: 'In creazione', text: 'In creazione' }],
+      selected2: ' ',
+      options2: [{ value: ' ', text: 'Select option' }, { value: 'Chiuse', text: 'Chiuse' }, { value: 'Archiviata', text: 'Archiviata' }, { value: 'Creata', text: 'Creata' }, { value: 'In creazione', text: 'In creazione' }]
+    };
   },
-  mounted: function mounted() {
+  created: function created() {
     this.getData();
   },
 
@@ -53382,6 +53369,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           success: function (data) {
             console.log(data);
             this.offers = data.data;
+            console.log(data.data[0].status);
+            this.status = data.data[0].status;
           }.bind(this),
           error: function error(xhr) {
             alert("Si è verificato un errore durante la richiesta all'API");
@@ -53393,25 +53382,19 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }.bind(this), 1000);
     },
     filterByStatus: function filterByStatus(selected) {
-      console.log(selected);
+      var filter = selected;
+      this.status = filter;
       this.loading = true;
-      setTimeout(function () {
-        $.ajax({
-          type: 'GET',
-          url: API_ENDPOINT_OFFERS,
-          data: { filter: selected },
-          success: function (data) {
-            console.log(data);
-            this.offers = data.data;
-          }.bind(this),
-          error: function error(xhr) {
-            alert("Si è verificato un errore durante la richiesta all'API");
-          },
-          complete: function () {
-            this.loading = false;
-          }.bind(this)
-        });
-      }.bind(this), 1000);
+      var self = this;
+      axios.get('/api/offers?filter=' + filter).then(function (response) {
+        self.loading = false;
+        var stato = response.data.data[0].status;
+        console.log(response.data);
+        self.offers = response.data.data; // Data existed
+        self.status = stato;
+      }).catch(function (err) {
+        console.log(err);
+      });
     },
     changetoPreStato: function changetoPreStato(selected2, id) {
       console.log(selected2);
@@ -53425,6 +53408,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           success: function (data) {
             console.log(data);
             this.offers = data.data;
+            this.status = selected2;
             this.selected2 = '';
           }.bind(this),
           error: function error(xhr) {
@@ -53533,7 +53517,6 @@ var render = function() {
                         }
                       ],
                       staticStyle: { "margin-top": "5px" },
-                      attrs: { name: "status" },
                       on: {
                         change: [
                           function($event) {
@@ -53555,27 +53538,20 @@ var render = function() {
                         ]
                       }
                     },
-                    [
-                      _c("option", { attrs: { value: "" } }, [
-                        _vm._v("Select an option")
-                      ]),
-                      _vm._v(" "),
-                      _c("option", { attrs: { value: "Creata" } }, [
-                        _vm._v("Creata")
-                      ]),
-                      _vm._v(" "),
-                      _c("option", { attrs: { value: "In creazione" } }, [
-                        _vm._v("In creazione")
-                      ]),
-                      _vm._v(" "),
-                      _c("option", { attrs: { value: "Archiviata" } }, [
-                        _vm._v("Archiviata")
-                      ]),
-                      _vm._v(" "),
-                      _c("option", { attrs: { value: "Chiuse" } }, [
-                        _vm._v("Chiuse")
-                      ])
-                    ]
+                    _vm._l(_vm.options, function(option) {
+                      return _c(
+                        "option",
+                        { domProps: { value: option.value } },
+                        [
+                          _vm._v(
+                            "\r\n                      " +
+                              _vm._s(option.text) +
+                              "\r\n                "
+                          )
+                        ]
+                      )
+                    }),
+                    0
                   )
                 ]),
                 _vm._v(" "),
@@ -53604,7 +53580,7 @@ var render = function() {
                     ]
                   },
                   _vm._l(_vm.offers, function(offer) {
-                    return _c("tr", [
+                    return _c("tr", { key: offer.id }, [
                       _c("th", { attrs: { scope: "row" } }, [
                         _vm._v(" " + _vm._s(offer.id))
                       ]),
@@ -53619,65 +53595,33 @@ var render = function() {
                       _vm._v(" "),
                       _c("td", [_vm._v(" " + _vm._s(offer.updated_at) + " ")]),
                       _vm._v(" "),
-                      _c("td", [_vm._v(" " + _vm._s(offer.status))]),
+                      _c("td", [_vm._v(" " + _vm._s(_vm.status))]),
                       _vm._v(" "),
                       _c("td", [_vm._v(" " + _vm._s(offer.total_price))]),
                       _vm._v(" "),
                       _c("td", [
                         _c("a", { attrs: { href: offer.link } }, [
-                          _c("i", {
-                            directives: [
-                              {
-                                name: "show",
-                                rawName: "v-show",
-                                value: offer.status == "Firmata",
-                                expression: "offer.status=='Firmata'"
-                              }
-                            ],
-                            staticClass: "fa fa-eye"
-                          })
+                          offer.status == "Firmata"
+                            ? _c("i", { staticClass: "fa fa-eye" })
+                            : _vm._e()
                         ]),
                         _vm._v(" "),
                         _c("a", { attrs: { href: offer.link } }, [
-                          _c("i", {
-                            directives: [
-                              {
-                                name: "show",
-                                rawName: "v-show",
-                                value: offer.status != "Firmata",
-                                expression: "offer.status!='Firmata'"
-                              }
-                            ],
-                            staticClass: "fa fa-edit"
-                          })
+                          offer.status != "Firmata"
+                            ? _c("i", { staticClass: "fa fa-edit" })
+                            : _vm._e()
                         ]),
                         _vm._v(" "),
                         _c("a", { attrs: { href: offer.status_change } }, [
-                          _c("i", {
-                            directives: [
-                              {
-                                name: "show",
-                                rawName: "v-show",
-                                value: offer.status == "In creazione",
-                                expression: "offer.status=='In creazione'"
-                              }
-                            ],
-                            staticClass: "fa fa-archive"
-                          })
+                          offer.status == "In creazione"
+                            ? _c("i", { staticClass: "fa fa-archive" })
+                            : _vm._e()
                         ]),
                         _vm._v(" "),
                         _c("a", { attrs: { href: offer.status_change } }, [
-                          _c("i", {
-                            directives: [
-                              {
-                                name: "show",
-                                rawName: "v-show",
-                                value: (offer.status = "Creata"),
-                                expression: "offer.status='Creata'"
-                              }
-                            ],
-                            staticClass: "fa fa-archive"
-                          })
+                          (offer.status = "Creata")
+                            ? _c("i", { staticClass: "fa fa-archive" })
+                            : _vm._e()
                         ]),
                         _vm._v(" "),
                         _c(
@@ -53689,19 +53633,12 @@ var render = function() {
                                 rawName: "v-model",
                                 value: _vm.selected2,
                                 expression: "selected2"
-                              },
-                              {
-                                name: "show",
-                                rawName: "v-show",
-                                value: offer.status == "Creata",
-                                expression: "offer.status == 'Creata'"
                               }
                             ],
                             staticStyle: {
                               "margin-left": "10px",
                               "vertical-align": "top"
                             },
-                            attrs: { name: "status2" },
                             on: {
                               change: [
                                 function($event) {
@@ -53727,27 +53664,20 @@ var render = function() {
                               ]
                             }
                           },
-                          [
-                            _c("option", { attrs: { value: "" } }, [
-                              _vm._v("Select an option")
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "Creata" } }, [
-                              _vm._v("Creata")
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "In creazione" } }, [
-                              _vm._v("In creazione")
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "Archiviata" } }, [
-                              _vm._v("Archiviata")
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "Chiuse" } }, [
-                              _vm._v("Chiuse")
-                            ])
-                          ]
+                          _vm._l(_vm.options2, function(option) {
+                            return _c(
+                              "option",
+                              { domProps: { value: option.value } },
+                              [
+                                _vm._v(
+                                  "\r\n                      " +
+                                    _vm._s(option.text) +
+                                    "\r\n                "
+                                )
+                              ]
+                            )
+                          }),
+                          0
                         )
                       ])
                     ])

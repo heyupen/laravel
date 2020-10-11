@@ -47,6 +47,7 @@ Route::post('login', function() {
 Route::middleware(['logout'])->group(function() {
  Route::apiResource('offers' , 'API\OfferController');
  Route::apiResource('clients', 'API\ClientController');
+ Route::post('filterdata', 'API\OfferController@filterdata')->name('offers.filterdata');
  Route::post('add-service/{offer}', 'API\OfferController@addService')->name('add-service');
  Route::post('remove-service/{offer}', 'API\OfferController@removeService')->name('remove-service');
  Route::get('search-client/', 'API\OfferController@searchClient')->name('search-client');

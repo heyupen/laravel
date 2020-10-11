@@ -8,7 +8,7 @@
 @section('footer')
 <script>
 var LOGO_IMG   = "{{ asset('img/logo.png') }}";
-var URL_OFFER_LIST = "{{ route('offer.list') }}";
+//var URL_OFFER_LIST = "{{ route('offer.list') }}";
 var URL_LOGOUT   = "{{ route('logout') }}";
 var API_ENDPOINT_LOGIN = "{{ route('api.login') }}";
 var API_ENDPOINT_OFFERS = "{{ route('offers.index') }}";

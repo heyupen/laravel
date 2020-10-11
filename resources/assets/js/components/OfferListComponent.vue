@@ -28,12 +28,10 @@
               </form>
             </div>
             <div>
-            <select v-model="selected" name="status" v-on:change="filterByStatus(selected)" style="margin-top: 5px;">
-              <option value="">Select an option</option>
-              <option value="Creata">Creata</option>
-              <option value="In creazione">In creazione</option>
-              <option value="Archiviata">Archiviata</option>
-              <option value="Chiuse">Chiuse</option>
+            <select v-model="selected" v-on:change="filterByStatus(selected)" style="margin-top: 5px;">
+                <option v-for="option in options" v-bind:value="option.value">
+                      {{ option.text }}
+                </option>
             </select>
             </div>
             <div class='col-sm-auto'>
@@ -43,7 +41,7 @@
               </div>
             </div>
           </div>
-         <table class="table">
+<table class="table">
   <thead>
     <tr>
       <th scope="col">#</th>
@@ -56,37 +54,35 @@
     </tr>
   </thead>
   <tbody v-show='!loading'>
-    <tr v-for="offer in offers">
+    <tr v-for="offer in offers" v-bind:key="offer.id">
      <th scope="row"> {{ offer.id }}</th>
      <td> {{ offer.client.Nome }}</td>
      <td> {{ offer.services.length }}
      </td>
      <td> {{ offer.updated_at }} </td>
-     <td> {{ offer.status }}</td>
+     <td> {{ status }}</td>
      <td> {{ offer.total_price }}</td>
       <td>
        <a :href='offer.link'>
-       <i class="fa fa-eye" v-show="offer.status=='Firmata'"></i>
+       <i class="fa fa-eye" v-if="offer.status=='Firmata'"></i>
        </a>
        <a :href='offer.link'>
-       <i v-show="offer.status!='Firmata'" class="fa fa-edit"></i>
+       <i v-if="offer.status!='Firmata'" class="fa fa-edit"></i>
        </a>
        <a :href='offer.status_change'>          
-        <i v-show="offer.status=='In creazione'" class="fa fa-archive"></i>
+        <i v-if="offer.status=='In creazione'" class="fa fa-archive"></i>
        </a>
        <a :href='offer.status_change'>
-          <i v-show="offer.status='Creata'" class="fa fa-archive"></i>
+          <i v-if="offer.status='Creata'" class="fa fa-archive"></i>
        </a>
-       <select v-model="selected2" name="status2" v-on:change="changetoPreStato(selected2,offer.id)" v-show="offer.status == 'Creata'" style="margin-left: 10px;vertical-align: top;">
-              <option value="">Select an option</option>
-              <option value="Creata">Creata</option>
-              <option value="In creazione">In creazione</option>
-              <option value="Archiviata">Archiviata</option>
-              <option value="Chiuse">Chiuse</option>
+       <select v-model="selected2" v-on:change="changetoPreStato(selected2,offer.id)" style="margin-left: 10px;vertical-align: top;">
+                <option v-for="option in options2" v-bind:value="option.value">
+                      {{ option.text }}
+                </option>
         </select>         
 
        <!--<a :v-confirm="{ok: deleteOffer(offer.id), cancel: doNothing, message: 'Questa offerta verra\' eliminata. Sei sicuro di procedere?'}">
-       <i v-show="offer.status!='Firmata'" class="fa fa-trash"></i>
+       <i v-if="offer.status!='Firmata'" class="fa fa-trash"></i>
        </a>
        -->
       </td>
@@ -107,31 +103,32 @@ export default {
     return {
       logo_img: LOGO_IMG,
       offers: [],
+      status: '',
       loading: false,
       search: '',
       agente: USER,
       agenzia: USER_AGENCY,
       createOfferUrl: URL_OFFER_CREATE,
       logoutUrl: URL_LOGOUT,
-      selected: '',
+      selected: ' ',
         options: [
-          { value: null, text: 'Select Status Filter' },
+          { value: ' ', text: 'Select option' },
           { value: 'Chiuse', text: 'Chiuse' },
           { value: 'Archiviata', text: 'Archiviata' },
           { value: 'Creata', text: 'Creata' },
           { value: 'In creazione', text: 'In creazione'}
         ],
-    selected2: '',
-      options: [
-        { value: null, text: 'Select Status Filter' },
-        { value: 'Chiuse', text: 'Chiuse' },
-        { value: 'Archiviata', text: 'Archiviata' },
-        { value: 'Creata', text: 'Creata' },
-        { value: 'In creazione', text: 'In creazione'}
-      ]
+      selected2: ' ',
+        options2: [
+          { value: ' ', text: 'Select option' },
+          { value: 'Chiuse', text: 'Chiuse' },
+          { value: 'Archiviata', text: 'Archiviata' },
+          { value: 'Creata', text: 'Creata' },
+          { value: 'In creazione', text: 'In creazione'}
+        ]
     };
   },
-  mounted() {
+  created() {
     this.getData();
   },
   methods: {
@@ -149,6 +146,8 @@ export default {
             success: function(data) {
               console.log(data);
               this.offers = data.data;
+              console.log(data.data[0].status);
+              this.status = data.data[0].status;
             }.bind(this),
             error: function(xhr) {
               alert("Si è verificato un errore durante la richiesta all'API");
@@ -162,28 +161,21 @@ export default {
       );
     },
     filterByStatus: function(selected) {
-        console.log(selected);
-        this.loading = true;
-        setTimeout(
-          function() {
-            $.ajax({
-              type: 'GET',
-              url: API_ENDPOINT_OFFERS,
-              data: {filter: selected},
-              success: function(data) {
-                console.log(data);
-                this.offers = data.data;
-              }.bind(this),
-              error: function(xhr) {
-                alert("Si è verificato un errore durante la richiesta all'API");
-              },
-              complete: function() {
-                this.loading = false;
-              }.bind(this),
-            });
-          }.bind(this),
-          1000,
-        );
+      var filter = selected;
+      this.status= filter;
+      this.loading = true;
+      let self = this;
+      axios.get('/api/offers?filter='+filter)
+        .then(function (response) {
+          self.loading = false;
+          var stato = response.data.data[0].status;         
+          console.log(response.data);
+          self.offers = response.data.data; // Data existed
+          self.status = stato;
+        })
+       .catch(function (err) {
+           console.log(err);
+       });
     },
     changetoPreStato: function(selected2,id) {
         console.log(selected2);
@@ -198,6 +190,7 @@ export default {
               success: function(data) {
                 console.log(data);
                 this.offers = data.data;
+                this.status = selected2;
                 this.selected2 = '';
               }.bind(this),
               error: function(xhr) {
