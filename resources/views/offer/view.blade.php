@@ -14,6 +14,7 @@ var API_ENDPOINT_LOGIN = "{{ route('api.login') }}";
 var API_ENDPOINT_OFFER = "{{ route('offers.show' , [$id]) }}";
 var API_ENDPOINT_OFFER_ADD_SERVICE = "{{ route('add-service' , [$id]) }}";
 var API_ENDPOINT_OFFER_REMOVE_SERVICE = "{{ route('remove-service' , [$id]) }}";
+var API_ENDPOINT_OFFERS_PREVIOUS_STATUS = "{{ route('offer.change_offer_to_prev_stato') }}";
 var API_ENDPOINT_GET_CLIENT = "{{ route('get-client') }}";
 var API_ENDPOINT_ADD_CLIENT = "{{ route('add-client') }}";
 var API_ENDPOINT_SEARCH_CLIENT = "{{ route('search-client') }}";

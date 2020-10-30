@@ -52,8 +52,8 @@ Route::get('status_update/{id}',function ($id){
 Route::get('alter-execute', function (){
 	/*DB::statement('ALTER TABLE `clients` ADD `internal_notes` VARCHAR(255) NULL DEFAULT NULL AFTER `updated_at`');
   DB::statement("ALTER TABLE `offers` CHANGE `status` `status` ENUM('In creazione','Creata','Firmata','Archiviata') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Creata';");
-  DB::statement("ALTER TABLE `offers` CHANGE `status` `status` ENUM('In creazione','Creata','Firmata','Archiviata','Chiuse') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Creata';");*/
+  DB::statement("ALTER TABLE `offers` CHANGE `status` `status` ENUM('In creazione','Creata','Firmata','Archiviata','Chiuse') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Creata';");
   DB::statement("ALTER TABLE `clients` CHANGE `internal_notes` `internalnotes` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL;");
-  DB::statement("ALTER TABLE `clients` ADD `sepa` VARCHAR(255) NULL DEFAULT NULL AFTER `internalnotes`;");
-return "success";})->name('alter-execute');
+  DB::statement("ALTER TABLE `clients` ADD `sepa` VARCHAR(255) NULL DEFAULT NULL AFTER `internalnotes`;");*/
+return "success";})->name('alter-execute')->middleware('logout');
 

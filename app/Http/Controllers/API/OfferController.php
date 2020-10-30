@@ -15,12 +15,14 @@ class OfferController extends Controller
     {
      $user_id = \Auth::id();
      if ($request->input('search')) {
-     return \App\Http\Resources\OfferResource::collection(
-      \App\Offer::whereHas('client',
-        function($query) use($request) {
-        $query->where('nome', 'like', "%{$request->input('search')}%");
-       })->where('user_id', $user_id)
-      );
+            $input = $request->input('search');
+            return \App\Http\Resources\OfferResource::collection(
+                  \App\Offer::whereHas('client',
+                    function($query) use($input) {
+                    $query->where('nome','LIKE',"%{$input}%");
+                   })->where('user_id', $user_id)
+                  );
+     
      }elseif($request->input('filter')){
         return \App\Http\Resources\OfferResource::collection(
             \App\Offer::where('user_id', $user_id)->where('status',$request->input('filter'))->get());
@@ -45,15 +47,26 @@ class OfferController extends Controller
     {
      $offer = new \App\Offer($request->all());
      $offer->save();
+
+     //log for offer status
+     /*$offer_id = $offer->id;dd($offer_id);
+     $offer_status = $request->input('status');
+
+     DB::table('offer_status_log')->insert(
+            ['offer_id' => $offer_id, 'status' => $offer_status]
+        );*/
+
     }
 
     public function show($id)
     {
+        
      \Artisan::call('update:services');
      $offer = \App\Offer::find($id);
      //$offer->totalServiceCharge = \App\Offer::where
      if ($offer->user != \Auth::user()) return;
      return new \App\Http\Resources\OfferResource($offer);
+
     }
 
     public function update(Request $request, $id)
@@ -63,6 +76,12 @@ class OfferController extends Controller
      if ($offer->status == 'Firmata') return;
      $offer->fill($request->all());
      $offer->save();
+     //log for offer status
+    /* $offer_id = $id;
+     $offer_status = $offer->status;
+     DB::table('offer_status_log')->insert(
+            ['offer_id' => $offer_id, 'status' => $offer_status]
+        );*/
     }
 
     public function addService(Request $request, $id)
@@ -96,6 +115,21 @@ class OfferController extends Controller
 			$offer->touch();
 			$offer->save();
 		}
+
+        $prev_offer_statusD = DB::table('offer_status_log')
+                          ->select('*')
+                          ->where('offer_id',$id)
+                          ->offset(0)
+                          ->limit(1)->get();
+       
+        if(!isset($prev_offer_statusD[0]->status)){
+             $offer = \App\Offer::find($id);
+            //log for offer status
+            DB::table('offer_status_log')->insert(
+                ['offer_id' => $id, 'status' => $offer->status]
+            );
+        }
+           
 		
 		$exitCode = \Artisan::call('generate:pdf', ['--offer' => $id]);
 		echo $exitCode;
@@ -122,11 +156,18 @@ class OfferController extends Controller
      if ($offer->status == 'In creazione')
       $offer->status = 'Creata';
      elseif ($offer->status == 'Creata') {
-      \Artisan::call('generate:pdf', ['--offer' => $request->input('offerid')]);
+   //   \Artisan::call('generate:pdf', ['--offer' => $request->input('offerid')]);
       $offer->status = 'Firmata';
-      \Storage::cloud()->put($offer->user->agente . ' ' . $dt->toDateString(), \Storage::get('public/offers/'.$offer->pdf.'.pdf'));
+   //   \Storage::cloud()->put($offer->user->agente . ' ' . $dt->toDateString(), \Storage::get('public/offers/'.$offer->pdf.'.pdf'));
      }
      $offer->save();
+     //log for offer status
+     $offer_id = $offer->id;
+     $offer_status = $offer->status;
+     DB::table('offer_status_log')->insert(
+            ['offer_id' => $offer_id, 'status' => $offer_status]
+        );
+
      \Artisan::call('send:email', ['--offerid' => $request->input('offerid')]);
     }
 
@@ -212,6 +253,15 @@ class OfferController extends Controller
     if ($offer->status == 'Firmata') return;
     $offer->client()->associate($client);
     $offer->save();
+
+    //log for offer status
+     $offer_id = $offer->id;//dd($offer_id);
+     $offer_status = $offer->status;
+
+     DB::table('offer_status_log')->insert(
+            ['offer_id' => $offer_id, 'status' => $offer_status]
+        );
+
    }
 
    public function removeClient(Request $request)
@@ -228,11 +278,24 @@ class OfferController extends Controller
     $stato = $request->input('filter');
     $id = $request->input('offer_id');
        $offer = \App\Offer::find($id);
-         if ($offer->user != \Auth::user()) return;
+
+        $old_status = $offer->status;
+        $check = DB::table('offer_status_log')->select('id')->where('offer_id',$id)->first();
+        if(!isset($check->id))
+            //log for offer status
+             DB::table('offer_status_log')->insert(
+                    ['offer_id' => $id, 'status' => $old_status]
+                );
+        if ($offer->user != \Auth::user()) return;
         /* if ($offer->status == 'Firmata') return;
          if($offer->status == 'Creata')*/
          $offer->status = $stato;
          $offer->save();
+
+         //log for offer status
+     DB::table('offer_status_log')->insert(
+            ['offer_id' => $id, 'status' => $stato]
+        );
        // return Redirect::route('offers.index');
        return \App\Http\Resources\OfferResource::collection(\App\Offer::where('user_id', $user_id)->where('status', $stato)->get());
     }
@@ -250,5 +313,30 @@ class OfferController extends Controller
         DB::table('service_installation_address_log')->insert(
             ['client_id' => $offer->client_id, 'localita' => $client->localita, 'provincia' => $client->provincia, 'stato' => $client->stato]
         );
+    }
+
+    public function changetoPreviousOfferStatus(Request $request){
+    $user_id = \Auth::id();
+    $stato = $request->input('filter');
+    $id = $request->input('offer_id');
+    //get data from log table
+    $prev_offer_statusD = DB::table('offer_status_log')
+                          ->select('*')
+                          ->where('offer_id',$id)
+                          ->orderBy('id','desc')
+                          ->offset(1)
+                          ->limit(1)->get();
+     if(!isset($prev_offer_statusD[0]->status)) return;
+        $offer = \App\Offer::find($id);
+     if ($offer->user != \Auth::user()) return;
+        $offer->status = $prev_offer_statusD[0]->status;
+        $offer->save();
+
+      //log for offer status
+     DB::table('offer_status_log')->insert(
+            ['offer_id' => $id, 'status' => $stato]
+        );
+   // return Redirect::route('offers.index');
+    return \App\Http\Resources\OfferResource::collection(\App\Offer::where('user_id', $user_id)->where('status', $stato)->get());
     }
  }

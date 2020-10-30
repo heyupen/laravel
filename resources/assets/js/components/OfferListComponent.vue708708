@@ -53,7 +53,7 @@
       <th scope="col">Azioni</th>
     </tr>
   </thead>
-  <tbody v-show='!loading' v-if="offers.length > 0">
+  <tbody v-show='!loading'>
     <tr v-for="offer in offers" v-bind:key="offer.id">
      <th scope="row"> {{ offer.id }}</th>
      <td> {{ offer.client.Nome }}</td>
@@ -86,11 +86,6 @@
        </a>
        -->
       </td>
-    </tr>
-  </tbody>
-  <tbody v-show='!loading' v-else>
-    <tr>
-      <td colspan="7">No offers available with default status, filter by other status.</td>
     </tr>
   </tbody>
 </table>
@@ -133,7 +128,7 @@ export default {
         ]
     };
   },
-  mounted() {
+  created() {
     this.getData();
   },
   methods: {
@@ -151,9 +146,13 @@ export default {
             success: function(data) {
               console.log(data);
               this.offers = data.data;
-              if(Array.isArray(data.data) && data.data.length) {
-                this.status = data.data[0].status;
+              console.log(data.data[0].status);
+              if (typeof data.data !== 'undefined' && data.data.length > 0) {
+                  this.status = data.data[0].status;
+              }else{
+                this.status = " ";
               }
+              
             }.bind(this),
             error: function(xhr) {
               alert("Si è verificato un errore durante la richiesta all'API");
@@ -167,30 +166,26 @@ export default {
       );
     },
     filterByStatus: function(selected) {
+      var filter = selected;
+      this.status= filter;
       this.loading = true;
-      setTimeout(
-        function() {
-          $.ajax({
-            type: 'GET',
-            url: API_ENDPOINT_OFFERS,
-            data: {filter: selected},
-            success: function(data) {
-              console.log(data);
-              this.offers = data.data;
-              if(Array.isArray(data.data) && data.data.length) {
-                this.status = data.data[0].status;
-              }
-            }.bind(this),
-            error: function(xhr) {
-              alert("Si è verificato un errore durante la richiesta all'API");
-            },
-            complete: function() {
-              this.loading = false;
-            }.bind(this),
-          });
-        }.bind(this),
-        1000,
-      );
+      let self = this;
+      axios.get('/api/offers?filter='+filter)
+        .then(function (response) {
+          self.loading = false;
+          var stato = response.data.data[0].status;         
+          console.log(response.data);
+          self.offers = response.data.data; // Data existed
+          if (typeof response.data.data !== 'undefined' && response.data.data.length > 0) {
+                  self.status = stato;
+          }else{
+                self.status = " ";
+          }
+
+        })
+       .catch(function (err) {
+           console.log(err);
+       });
     },
     changetoPreStato: function(selected2,id) {
         console.log(selected2);

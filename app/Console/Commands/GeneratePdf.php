@@ -25,7 +25,7 @@ class GeneratePdf extends Command
      $absolutePath = '/var/www/ordini/storage/app/';
      $pdf = \Storage::get('templates/pdf.tex');
      $includeServicePdf = ' \includegraphics[width=1.0\textwidth]{'.$absolutePath.'services/%}';
-     $temp = str_random(20);
+     $temp = (isset($offer->client->nome))?$offer->client->nome:str_random(20);
      if ($offer->client) {
       $pdf = str_replace('% CLIENT_NOME', $offer->client->nome, $pdf);
       $pdf = str_replace('% CLIENT_PIVACF', $offer->client->pivacf, $pdf);
