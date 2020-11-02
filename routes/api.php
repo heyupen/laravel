@@ -47,6 +47,7 @@ Route::post('login', function() {
 Route::middleware(['logout'])->group(function() {
  Route::apiResource('offers' , 'API\OfferController');
  Route::apiResource('clients', 'API\ClientController');
+ Route::post('filterdata', 'API\OfferController@filterdata')->name('offers.filterdata');
  Route::post('add-service/{offer}', 'API\OfferController@addService')->name('add-service');
  Route::post('remove-service/{offer}', 'API\OfferController@removeService')->name('remove-service');
  Route::get('search-client/', 'API\OfferController@searchClient')->name('search-client');
@@ -56,5 +57,8 @@ Route::middleware(['logout'])->group(function() {
  Route::post('update-offer/', 'API\OfferController@up')->name('update-offer');
  Route::post('offer-signature/', 'API\OfferController@sign')->name('offer-signature');
  Route::post('add-client/', 'API\OfferController@addClient')->name('add-client');
+ Route::post('change_to_prev_stato','API\OfferController@changeOfferStatus')->name('offer.change_to_prev_stato');
+ Route::post('change_offer_to_prev_stato','API\OfferController@changetoPreviousOfferStatus')->name('offer.change_offer_to_prev_stato');
+  Route::post('update-install-address/', 'API\OfferController@changeInstallationAddress')->name('update-install-address');
 }
 );

@@ -1,0 +1,3 @@
+ALTER TABLE `clients` ADD `cid` VARCHAR(255) NULL DEFAULT NULL AFTER `rid`, ADD `pec` VARCHAR(255) NULL DEFAULT NULL AFTER `cid`;
+ALTER TABLE `offers` CHANGE `status` `status` ENUM('In creazione','Creata','Firmata','Archiviata') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Creata';
+ALTER TABLE `offers` CHANGE `status` `status` ENUM('In creazione','Creata','Firmata','Archiviata','Chiuse') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Creata';

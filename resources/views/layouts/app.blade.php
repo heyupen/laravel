@@ -27,7 +27,7 @@
  z-index: 9999 
 }
 </style>
-
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 <body>
     <div id="CPQ">

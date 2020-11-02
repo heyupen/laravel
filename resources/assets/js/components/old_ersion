@@ -148,36 +148,6 @@ div
          .row(v-show="completed")
           .col
            .alert.alert-success.text-center Operazione completata con successo.
-
-  .container(v-if="showModal === 'yes'")
-      a(data-toggle="modal" href="#normalModal" class="btn btn-default") update Address
-
-
-  #normalModal(class="modal fade")
-    div(class="modal-dialog")
-      div(class="modal-content")
-        div(class="modal-header")
-          button(type="button" class="close" data-dismiss="modal" aria-hidden="true") &times;
-          h4(class="modal-title") Title
-      
-        div(class="modal-body")
-          .row
-            .col-md-3.col-6.form-group
-             label.bmd-label-static Localita
-             input.form-control(v-model='Localita')
-            .col-md-3.col-6.form-group
-             label.bmd-label-static Provincia
-             input.form-control(v-model='Provincia')
-            .col-md-3.col-6.form-group
-             label.bmd-label-static Stato
-             input.form-control(v-model='Stato')
-        div(class="modal-footer")
-          button(type="button" class="btn btn-default" data-dismiss="modal") Close
-          button(type="button" onclick="updateInstallAddress(Localita,Provincia,Stato)" class="btn btn-primary") Update
-       
-        #test_area
-          #test_main
-
 </template>
 
 <script>
@@ -211,7 +181,6 @@ export default {
       Localita: '',
       Provincia: '',
       Stato: '',
-      showModal: 'no',
 
     };
   },
@@ -381,21 +350,10 @@ export default {
         data: {service_id: this.servicesTemp[serviceid]},
         success: function(data) {
           console.log(data);
-          this.loading = false;
-          this.showModal = 'yes';
-         // $("#normalModal").show();
-          //this.getData();
+          this.getData();
         }.bind(this),
         error: function(xhr) {},
       });
-    },
-    test:function(){
-        $("#test_area").html("<h3>Good choice</h3>");    
-        if ($('#x').is(":checked")){
-          $('#test_main').html("<h2>You chose x</h2>");
-        }else {
-          $('#test_main').html("<h2>You chose o</h2>");
-        }
     },
     doNothing() {},
     removeService: function(serviceid) {

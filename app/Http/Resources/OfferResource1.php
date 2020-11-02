@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class OfferResource extends JsonResource
+class OfferResource1 extends JsonResource
 {
     public function toArray($request)
     {
@@ -53,6 +53,7 @@ class OfferResource extends JsonResource
        'total_price' => $this->gettotalprice($this->services),
        'all_services' => ServiceCategoryResource::collection(\App\ServiceCategory::with('services')->get()),
        'status' => $this->status, 
+       'test' => $this->test,
        'link' => route('offer.view', [$this->id]),
        'status_change' => route('offer.status_update', [$this->id]),
        'created_at' => $this->created_at->diffForHumans(),

@@ -5,8 +5,8 @@
  */
 
 require('./bootstrap');
-require('bootstrap-material-design');
 require('jquery');
+//require('bootstrap-material-design');
 var Autocomplete = require('vue2-autocomplete-js');
 import 'vue2-autocomplete-js/dist/style/vue2-autocomplete.css';
 import 'bootstrap-material-design/dist/css/bootstrap-material-design.css';
@@ -44,7 +44,9 @@ Vue.component(
   'offer-list-component',
   require('./components/OfferListComponent.vue'),
 );
-
 const app = new Vue({
   el: '#app',
+  methods: {
+    
+  }
 });
